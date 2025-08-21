@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "sim_spin2 (default)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/sim_spin2.py",
+      "console": "integratedTerminal",
+      "args": []
+    },
+    {
+      "name": "sim_spin2 (plot)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/sim_spin2.py",
+      "console": "integratedTerminal",
+      "args": ["--plot"]
+    },
+    {
+      "name": "entropy_cut (x)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/entropy_cut.py",
+      "console": "integratedTerminal",
+      "args": ["--L","6","--side","x"]
+    },
+    {
+      "name": "entropy_cut (x, plot)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/entropy_cut.py",
+      "console": "integratedTerminal",
+      "args": ["--L","6","--side","x","--plot"]
+    }
+  ]
+}
