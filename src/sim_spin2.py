@@ -1,6 +1,7 @@
 from __future__ import annotations
 import numpy as np
 import argparse
+import os
 
 
 def build_TT_projector(kvec: tuple[int, int, int]) -> np.ndarray:
@@ -27,7 +28,7 @@ def build_TT_projector(kvec: tuple[int, int, int]) -> np.ndarray:
     return PTT
 
 
-def run_spin2_demo(L: int = 12, tsteps: int = 48):
+def run_spin2_demo(L: int = 12, tsteps: int = 48, do_plot: bool = False):
     rng = np.random.default_rng(1234)
     h = rng.standard_normal((tsteps, L, L, L, 3, 3)) * 0.2
 
@@ -72,10 +73,32 @@ def run_spin2_demo(L: int = 12, tsteps: int = 48):
     print("ω(k) (rad/step):", [f"{r[2]:.3f}" for r in results])
     print("phase velocity ω/|k|:", [f"{r[3]:.3f}" for r in results])
 
+    if do_plot:
+        try:
+            import matplotlib.pyplot as plt  # will raise if not installed
+            os.makedirs("figs", exist_ok=True)
+            k_phys_vals = [r[1] for r in results]
+            omega_vals = [r[2] for r in results]
+            plt.figure()
+            plt.plot(k_phys_vals, omega_vals, marker="o")
+            plt.xlabel("|k| (rad/lu)")
+            plt.ylabel("ω(k) (rad/step)")
+            plt.title("Dispersion: ω vs |k|")
+            plt.tight_layout()
+            out_path = "figs/omega_vs_k.png"
+            plt.savefig(out_path, dpi=150)
+            print(f"Saved plot to {out_path}")
+        except ModuleNotFoundError:
+            print("Plotting skipped: matplotlib not installed. To enable plots, run:")
+            print("  python3 -m pip install matplotlib")
+        except Exception as e:
+            print(f"Plotting skipped due to error: {e}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Spin-2 TT projection demo")
     parser.add_argument("--L", type=int, default=12, help="Lattice size")
     parser.add_argument("--tsteps", type=int, default=48, help="Number of time steps")
+    parser.add_argument("--plot", action="store_true", help="Save ω vs |k| plot to figs/")
     args = parser.parse_args()
-    run_spin2_demo(L=args.L, tsteps=args.tsteps)
+    run_spin2_demo(L=args.L, tsteps=args.tsteps, do_plot=args.plot)
