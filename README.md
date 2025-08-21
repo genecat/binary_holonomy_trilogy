@@ -12,5 +12,23 @@ Two tiny, laptop-friendly experiments:
 ### Install (optional)
 ```bash
 python3 -m pip install -r requirements.txt
+# from the repo root
+python3 src/sim_spin2.py
+python3 src/entropy_cut.py
+# spin-2: change lattice/time or save a plot
+python3 src/sim_spin2.py --L 16 --tsteps 64
+python3 src/sim_spin2.py --plot
 
-md
+# entropy cut: choose cut side or save plots
+python3 src/entropy_cut.py --L 6 --side x
+python3 src/entropy_cut.py --L 6 --side x --plot
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+make install
+make run-sim L=12 TSTEPS=48
+make plot-sim L=12 TSTEPS=48
+make run-entropy L=12 SIDE=x
+make plot-entropy L=12 SIDE=x
+make clean
+```
