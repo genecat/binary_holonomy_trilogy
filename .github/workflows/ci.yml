@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run-demos:
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install requirements
+        run: python -m pip install -r requirements.txt
+      - name: Run sim_spin2 demo (with plot)
+        run: python src/sim_spin2.py --plot
+      - name: Run entropy_cut demo (with plot)
+        run: python src/entropy_cut.py --L 6 --side x --plot
