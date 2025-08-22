@@ -20,3 +20,5 @@ jobs:
         run: python src/sim_spin2.py --plot
       - name: Run entropy_cut demo (with plot)
         run: python src/entropy_cut.py --L 6 --side x --plot
+      - name: Run Wilson loops demo (with plot)
+        run: python src/wilson_loops.py --L 8 --nsamples 300 --plot
